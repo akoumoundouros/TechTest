@@ -20,11 +20,17 @@ builder.Services.AddAuthorization(options =>
     options.FallbackPolicy = options.DefaultPolicy;
 });
 
-builder.Services.AddSingleton<TechTest.Data.DbContext>();
+
+
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 AppConfig settings = builder.Configuration.GetSection("AppConfig").Get<AppConfig>();
 builder.Services.AddSingleton(settings);
+
+// Add SQLite DbContext
+builder.Services.AddSqlite<TechTest.Data.TTContext>(builder.Configuration.GetConnectionString("Default"));
+
 
 var app = builder.Build();
 

@@ -9,7 +9,7 @@ This project, built in .NET 6, demos a basic CRUD API, which includes functions 
 * Get by ID
 * Delete
 
-a product/products. It also demonstrates an Authentication and Persistence layer.
+a product/products. It also demonstrates an Authentication layer.
 
 ## How to run
 

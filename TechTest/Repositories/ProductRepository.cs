@@ -2,11 +2,12 @@
 
 namespace TechTest.Repositories
 {
-    public class ProductRepository : BaseRepository, IProductRepository
+    public class ProductRepository : IProductRepository
     {
-        public ProductRepository(DbContext db) : base(db)
+        TTContext _db;
+        public ProductRepository(TTContext db)
         {
-
+            _db = db;
         }
 
         public void Create(int id, string name, string desc, decimal price)
@@ -18,25 +19,25 @@ namespace TechTest.Repositories
                 Description = desc,
                 Price = price
             };
-            Create<Product>(product);
+            _db.Add(product);
+            _db.SaveChanges();
         }
 
         public Product GetById(int id)
         {
-            return GetAll<Product>()
-                .FirstOrDefault(x => x.Id == id);
+            return _db.Products.Find(id);
         }
 
         public List<Product> GetAll()
         {
-            return base.GetAll<Product>();
+            return _db.Products.ToList();
         }
 
         public void Delete(int id)
         {
-            var allProducts = context.Get<Product>();
-            allProducts.RemoveAll(x => x.Id == id);
-            context.SaveChanges<Product>(allProducts);
+            var product = GetById(id);
+            _db.Products.Remove(product);
+            _db.SaveChanges();
         }
     }
 }
